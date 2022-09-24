@@ -62,12 +62,12 @@ resource "intersight_fabric_fc_network_policy" "vsan_policy" {
 locals {
   vsan_list = {
     for v in var.vsan_list : v.vsan_id => {
-      default_zoning       = v.default_zoning != null ? v.default_zoning : "Disabled"
-      fcoe_vlan_id         = v.fcoe_vlan_id != null ? v.fcoe_vlan_id : v.vsan_id
-      fc_zone_sharing_mode = v.fc_zone_sharing_mode != null ? v.fc_zone_sharing_mode : ""
-      name                 = v.name != null ? v.name : ""
+      default_zoning       = v.default_zoning
+      fcoe_vlan_id         = coalesce(v.fcoe_vlan_id, v.vsan_id)
+      fc_zone_sharing_mode = v.fc_zone_sharing_mode
+      name                 = v.name
       vsan_id              = v.vsan_id
-      vsan_scope           = v.vsan_scope != null ? v.vsan_scope : "Uplink"
+      vsan_scope           = v.vsan_scope
     }
   }
 }

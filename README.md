@@ -86,6 +86,7 @@ $env:TF_VAR_secretkey="<secret-key-file-location>""
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.3.0 |
 | <a name="requirement_intersight"></a> [intersight](#requirement\_intersight) | >=1.0.32 |
 ## Providers
 
@@ -105,7 +106,7 @@ $env:TF_VAR_secretkey="<secret-key-file-location>""
 | <a name="input_profiles"></a> [profiles](#input\_profiles) | List of UCS Domain Profile Moids to Assign to the Policy. | `list(string)` | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | List of Tag Attributes to Assign to the Policy. | `list(map(string))` | `[]` | no |
 | <a name="input_uplink_trunking"></a> [uplink\_trunking](#input\_uplink\_trunking) | Enable or Disable Trunking on all of configured FC uplink ports. | `bool` | `false` | no |
-| <a name="input_vsan_list"></a> [vsan\_list](#input\_vsan\_list) | * default\_zoning: (optional) - Enables or Disables the default zoning state.<br>  - Enabled - Admin configured Enabled State.<br>  - Disabled: (default) - Admin configured Disabled State.<br>* fc\_zone\_sharing\_mode: (optional) - Logical grouping mode for fc ports.  Not used at this time.<br>* fcoe\_vlan\_id: (required) -  FCoE VLAN Identifier to Assign to the VSAN Policy.<br>* name: (optional) - Name for VSAN(s).<br>* vsan\_id:  (required) -  VSAN Identifier to Assign to the VSAN Policy.<br>* vsan\_scope - Used to indicate whether the VSAN Id is defined for storage or uplink or both traffics in FI.<br>  - Uplink: (default) - Vsan associated with uplink network.<br>  - Storage - Vsan associated with storage network.<br>  - Common - Vsan that is common for uplink and storage network. | <pre>list(object({<br>    default_zoning       = optional(string)<br>    fc_zone_sharing_mode = optional(string)<br>    fcoe_vlan_id         = optional(number)<br>    name                 = optional(string)<br>    vsan_id              = number<br>    vsan_scope           = optional(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_vsan_list"></a> [vsan\_list](#input\_vsan\_list) | * default\_zoning: (optional) - Enables or Disables the default zoning state.<br>  - Enabled - Admin configured Enabled State.<br>  - Disabled: (default) - Admin configured Disabled State.<br>* fc\_zone\_sharing\_mode: (optional) - Logical grouping mode for fc ports.  Not used at this time.<br>* fcoe\_vlan\_id: (required) -  FCoE VLAN Identifier to Assign to the VSAN Policy.<br>* name: (optional) - Name for VSAN(s).<br>* vsan\_id:  (required) -  VSAN Identifier to Assign to the VSAN Policy.<br>* vsan\_scope - Used to indicate whether the VSAN Id is defined for storage or uplink or both traffics in FI.<br>  - Uplink: (default) - Vsan associated with uplink network.<br>  - Storage - Vsan associated with storage network.<br>  - Common - Vsan that is common for uplink and storage network. | <pre>list(object({<br>    default_zoning       = optional(string, "Disabled")<br>    fc_zone_sharing_mode = optional(string, "")<br>    fcoe_vlan_id         = optional(number, null)<br>    name                 = optional(string, "")<br>    vsan_id              = number<br>    vsan_scope           = optional(string, "Uplink")<br>  }))</pre> | `[]` | no |
 ## Outputs
 
 | Name | Description |

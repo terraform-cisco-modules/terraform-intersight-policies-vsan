@@ -1,7 +1,3 @@
-terraform {
-  experiments = [module_variable_optional_attrs]
-}
-
 #____________________________________________________________
 #
 # UCS Domain VSAN Policy Variables Section.
@@ -64,11 +60,11 @@ variable "vsan_list" {
       - Common - Vsan that is common for uplink and storage network.
   EOT
   type = list(object({
-    default_zoning       = optional(string)
-    fc_zone_sharing_mode = optional(string)
-    fcoe_vlan_id         = optional(number)
-    name                 = optional(string)
+    default_zoning       = optional(string, "Disabled")
+    fc_zone_sharing_mode = optional(string, "")
+    fcoe_vlan_id         = optional(number, null)
+    name                 = optional(string, "")
     vsan_id              = number
-    vsan_scope           = optional(string)
+    vsan_scope           = optional(string, "Uplink")
   }))
 }
