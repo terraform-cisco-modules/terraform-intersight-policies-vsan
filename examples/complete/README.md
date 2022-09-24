@@ -26,7 +26,6 @@ module "vsan_policy" {
     }
   ]
 }
-
 ```
 
 ### variables.tf
