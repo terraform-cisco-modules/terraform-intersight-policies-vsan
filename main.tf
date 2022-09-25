@@ -5,7 +5,12 @@
 #____________________________________________________________
 
 data "intersight_organization_organization" "org_moid" {
-  name = var.organization
+  for_each = {
+    for v in [var.organization] : v => v if length(
+      regexall("[[:xdigit:]]{24}", var.organization)
+    ) == 0
+  }
+  name = each.value
 }
 
 #____________________________________________________________
@@ -25,7 +30,7 @@ data "intersight_fabric_switch_profile" "profiles" {
 # GUI Location: Policies > Create Policy > VSAN
 #__________________________________________________________________
 
-resource "intersight_fabric_fc_network_policy" "vsan_policy" {
+resource "intersight_fabric_fc_network_policy" "vsan" {
   depends_on = [
     data.intersight_organization_organization.org_moid,
     data.intersight_fabric_switch_profile.profiles
@@ -34,7 +39,11 @@ resource "intersight_fabric_fc_network_policy" "vsan_policy" {
   enable_trunking = var.uplink_trunking
   name            = var.name
   organization {
-    moid        = data.intersight_organization_organization.org_moid.results[0].moid
+    moid = length(
+      regexall("[[:xdigit:]]{24}", var.organization)
+      ) > 0 ? var.organization : data.intersight_organization_organization.org_moid[
+      var.organization].results[0
+    ].moid
     object_type = "organization.Organization"
   }
   dynamic "profiles" {

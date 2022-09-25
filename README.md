@@ -9,7 +9,7 @@ Location in GUI:
 
 ### main.tf
 ```hcl
-module "vsan_policy" {
+module "vsan" {
   source  = "terraform-cisco-modules/policies-vsan/intersight"
   version = ">= 1.0.1"
 
@@ -21,6 +21,19 @@ module "vsan_policy" {
       vsan_id = 100
     }
   ]
+}
+```
+
+### provider.tf
+```hcl
+terraform {
+  required_providers {
+    intersight = {
+      source  = "CiscoDevNet/intersight"
+      version = ">=1.0.32"
+    }
+  }
+  required_version = ">=1.3.0"
 }
 ```
 
@@ -42,24 +55,6 @@ variable "secretkey" {
   description = "Intersight Secret Key."
   sensitive   = true
   type        = string
-}
-```
-
-### versions.tf
-```hcl
-terraform {
-  required_providers {
-    intersight = {
-      source  = "CiscoDevNet/intersight"
-      version = ">=1.0.32"
-    }
-  }
-}
-
-provider "intersight" {
-  apikey    = var.apikey
-  endpoint  = var.endpoint
-  secretkey = var.secretkey
 }
 ```
 
@@ -117,7 +112,7 @@ $env:TF_VAR_secretkey="<secret-key-file-location>""
 
 | Name | Type |
 |------|------|
-| [intersight_fabric_fc_network_policy.vsan_policy](https://registry.terraform.io/providers/CiscoDevNet/intersight/latest/docs/resources/fabric_fc_network_policy) | resource |
+| [intersight_fabric_fc_network_policy.vsan](https://registry.terraform.io/providers/CiscoDevNet/intersight/latest/docs/resources/fabric_fc_network_policy) | resource |
 | [intersight_fabric_vsan.vsans](https://registry.terraform.io/providers/CiscoDevNet/intersight/latest/docs/resources/fabric_vsan) | resource |
 | [intersight_fabric_switch_profile.profiles](https://registry.terraform.io/providers/CiscoDevNet/intersight/latest/docs/data-sources/fabric_switch_profile) | data source |
 | [intersight_organization_organization.org_moid](https://registry.terraform.io/providers/CiscoDevNet/intersight/latest/docs/data-sources/organization_organization) | data source |

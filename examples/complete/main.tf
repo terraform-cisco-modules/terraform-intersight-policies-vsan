@@ -1,4 +1,4 @@
-module "vsan_policy" {
+module "vsan" {
   source  = "terraform-cisco-modules/policies-vsan/intersight"
   version = ">= 1.0.1"
 
