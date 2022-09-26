@@ -20,7 +20,7 @@ data "intersight_organization_organization" "org_moid" {
 #____________________________________________________________
 
 data "intersight_fabric_switch_profile" "profiles" {
-  for_each = { for v in var.profiles : v => v if length(var.profiles) > 0 }
+  for_each = { for v in var.profiles : v => v if length(regexall("[[:xdigit:]]{24}", v)) == 0 }
   name     = each.value
 }
 
@@ -49,7 +49,9 @@ resource "intersight_fabric_fc_network_policy" "vsan" {
   dynamic "profiles" {
     for_each = { for v in var.profiles : v => v }
     content {
-      moid        = data.intersight_fabric_switch_profile.profiles[profiles.value].results[0].moid
+      moid = length(
+        regexall("[[:xdigit:]]{24}", profiles.value)
+      ) > 0 ? profiles.value : data.intersight_fabric_switch_profile.profiles[profiles.value].results[0].moid
       object_type = "fabric.SwitchProfile"
     }
   }
@@ -100,6 +102,6 @@ resource "intersight_fabric_vsan" "vsans" {
   vsan_id    = each.value.vsan_id
   vsan_scope = each.value.vsan_scope
   fc_network_policy {
-    moid = intersight_fabric_fc_network_policy.vsan_policy.moid
+    moid = intersight_fabric_fc_network_policy.vsan.moid
   }
 }
