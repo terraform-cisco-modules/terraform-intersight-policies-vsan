@@ -20,7 +20,7 @@ module "vsan" {
   description  = "default VSAN Policy."
   name         = "default"
   organization = "default"
-  vsan_list = [
+  vsans = [
     {
       vsan_id = 100
     }

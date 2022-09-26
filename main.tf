@@ -72,7 +72,7 @@ resource "intersight_fabric_fc_network_policy" "vsan" {
 
 locals {
   vsan_list = {
-    for v in var.vsan_list : v.vsan_id => {
+    for v in var.vsans : v.vsan_id => {
       default_zoning       = v.default_zoning
       fcoe_vlan_id         = coalesce(v.fcoe_vlan_id, v.vsan_id)
       fc_zone_sharing_mode = v.fc_zone_sharing_mode
@@ -85,7 +85,7 @@ locals {
 
 resource "intersight_fabric_vsan" "vsans" {
   depends_on = [
-    intersight_fabric_fc_network_policy.vsan_policy
+    intersight_fabric_fc_network_policy.vsan
   ]
   for_each             = local.vsan_list
   default_zoning       = each.value.default_zoning

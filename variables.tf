@@ -44,7 +44,7 @@ variable "uplink_trunking" {
 # VSAN Policy -> Add VSAN Variables Section.
 #____________________________________________________________
 
-variable "vsan_list" {
+variable "vsans" {
   default     = []
   description = <<-EOT
     * default_zoning: (optional) - Enables or Disables the default zoning state.
