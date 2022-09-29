@@ -9,6 +9,18 @@ variable "description" {
   type        = string
 }
 
+variable "domain_profiles" {
+  default     = {}
+  description = "Map for Moid based Domain Profile Sources."
+  type        = any
+}
+
+variable "moids" {
+  default     = false
+  description = "Flag to Determine if pools and policies should be data sources or if they already defined as a moid."
+  type        = bool
+}
+
 variable "name" {
   default     = "default"
   description = "Name for the Policy."
@@ -23,7 +35,7 @@ variable "organization" {
 
 variable "profiles" {
   default     = []
-  description = "List of UCS Domain Profile Moids to Assign to the Policy."
+  description = "List of UCS Domain Switch Profile Names to Assign to the Policy."
   type        = list(string)
 }
 

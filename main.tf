@@ -6,9 +6,7 @@
 
 data "intersight_organization_organization" "org_moid" {
   for_each = {
-    for v in [var.organization] : v => v if length(
-      regexall("[[:xdigit:]]{24}", var.organization)
-    ) == 0
+    for v in [var.organization] : v => v if var.moids == false
   }
   name = each.value
 }
@@ -20,7 +18,7 @@ data "intersight_organization_organization" "org_moid" {
 #____________________________________________________________
 
 data "intersight_fabric_switch_profile" "profiles" {
-  for_each = { for v in var.profiles : v => v if length(regexall("[[:xdigit:]]{24}", v)) == 0 }
+  for_each = { for v in var.profiles : v => v if var.moids == false }
   name     = each.value
 }
 
@@ -39,8 +37,7 @@ resource "intersight_fabric_fc_network_policy" "vsan" {
   enable_trunking = var.uplink_trunking
   name            = var.name
   organization {
-    moid = length(
-      regexall("[[:xdigit:]]{24}", var.organization)
+    moid = length(regexall(true, var.moids)
       ) > 0 ? var.organization : data.intersight_organization_organization.org_moid[
       var.organization].results[0
     ].moid
@@ -49,9 +46,8 @@ resource "intersight_fabric_fc_network_policy" "vsan" {
   dynamic "profiles" {
     for_each = { for v in var.profiles : v => v }
     content {
-      moid = length(
-        regexall("[[:xdigit:]]{24}", profiles.value)
-      ) > 0 ? profiles.value : data.intersight_fabric_switch_profile.profiles[profiles.value].results[0].moid
+      moid = length(regexall(true, var.moids)) > 0 ? var.domain_profiles[profiles.value
+      ].moid : data.intersight_fabric_switch_profile.profiles[profiles.value].results[0].moid
       object_type = "fabric.SwitchProfile"
     }
   }
