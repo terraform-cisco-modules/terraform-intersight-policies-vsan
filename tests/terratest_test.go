@@ -41,7 +41,7 @@ func TestFull(t *testing.T) {
 	moid := terraform.Output(t, terraformOptions, "moid")
 	vsan := terraform.Output(t, terraformOptions, "vsan")
 	assert.NotEmpty(t, moid, "TF module moid output should not be empty")
-	assert.NotEmpty(t, moid, "TF module vsan moid output should not be empty")
+	assert.NotEmpty(t, vsan, "TF module vsan moid output should not be empty")
 
 	vars2 := map[string]interface{}{
 		"name":        instanceName,
