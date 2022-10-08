@@ -13,7 +13,7 @@ output "moid" {
 # Collect the moid of the VSAN Policy - Add VSANs as Outputs
 #____________________________________________________________
 
-output "vsan_moids" {
+output "vsans" {
   description = "VSAN Policy - Add VSANs Managed Object ID (moid)."
   value       = { for v in sort(keys(intersight_fabric_vsan.vsans)) : v => intersight_fabric_vsan.vsans[v].moid }
 }
