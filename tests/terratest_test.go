@@ -57,7 +57,7 @@ func TestFull(t *testing.T) {
 	expectedJSONTemplate := `
 {
 	"Name":        "{{ .name }}",
-	"Description": "{{ .name }} VSAN Policy.",
+	"Description": "{{ .name }} VSAN Policy."
 }
 `
 	// Validate that what is in the Intersight API matches the expected
